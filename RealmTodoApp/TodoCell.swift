@@ -18,7 +18,7 @@ class TodoCell: UITableViewCell {
         didSet {
             if let todoInfo = todoInfo {
                 todoTitle.text = todoInfo.title
-                //todoDate.text = todoInfo.date
+                todoDate.text = todoInfo.date.asShortDate
                 todoPriority.image = UIImage.init(imageLiteralResourceName: todoInfo.priority.rawValue)
             }
         }
