@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     var todoItems: [TodoInfo] = []
+    
+    var navigationVC: UINavigationController = UINavigationController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -24,28 +26,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let todoTableVC = TodoTableViewController(nibId: "TodoCell", cellId: "TodoCellId", items: todoItems, style: .plain)
         
-        let navigationController = UINavigationController(rootViewController: todoTableVC)
-        navigationController.navigationBar.topItem?.title = "Realm TODO APP"
+        navigationVC = UINavigationController(rootViewController: todoTableVC)
+        navigationVC.navigationBar.topItem?.title = "Realm TODO APP"
         
-        window?.rootViewController = navigationController
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTodo))
+        navigationVC.navigationBar.topItem?.rightBarButtonItem = addButton
+        
+        window?.rootViewController = navigationVC
         window?.makeKeyAndVisible()
 
         return true
     }
+    
+    func addTodo() {
+        
+        let todoAddNewVC = UINavigationController(rootViewController: TodoAddNew(nibName: "TodoAddNew", bundle: nil))
+        navigationVC.present(todoAddNewVC, animated: true)
+    }
+
 
     func setupMockData() -> [TodoInfo] {
         
+        let today = Date()
+        let intervalDays = 60 * 60 * 24
+
         return [
-            TodoInfo(date: Date(), title: "Title 01", description: "Description 01", priority: nil),
-            TodoInfo(date: Date(), title: "Title 02", description: "Description 02", priority: Priority.low),
-            TodoInfo(date: Date(), title: "Title 03", description: "Description 03", priority: Priority.intermediate),
-            TodoInfo(date: Date(), title: "Title 04", description: "Description 04", priority: Priority.intermediate),
-            TodoInfo(date: Date(), title: "Title 05", description: "Description 05", priority: Priority.high),
-            TodoInfo(date: Date(), title: "Title 06", description: "Description 06", priority: Priority.high),
-            TodoInfo(date: Date(), title: "Title 07", description: "Description 07", priority: nil),
-            TodoInfo(date: Date(), title: "Title 08", description: "Description 08", priority: nil),
-            TodoInfo(date: Date(), title: "Title 09", description: "Description 09", priority: nil),
-            TodoInfo(date: Date(), title: "Title 10", description: "Description 10", priority: nil)
+            TodoInfo(date: Date(timeInterval: TimeInterval(-1 * intervalDays), since: today), title: "Title 01", description: "Description 01", priority: nil),
+            TodoInfo(date: Date(timeInterval: TimeInterval(-100 * intervalDays), since: today), title: "Title 02", description: "Description 02", priority: Priority.low),
+            TodoInfo(date: Date(timeInterval: TimeInterval(-80 * intervalDays), since: today), title: "Title 03", description: "Description 03", priority: Priority.intermediate),
+            TodoInfo(date: Date(timeInterval: TimeInterval( -30 * intervalDays), since: today), title: "Title 04", description: "Description 04", priority: Priority.intermediate),
+            TodoInfo(date: Date(timeInterval: TimeInterval(-43 * intervalDays), since: today), title: "Title 05", description: "Description 05", priority: Priority.high),
+            TodoInfo(date: Date(timeInterval: TimeInterval(0 * intervalDays), since: today), title: "Title 06", description: "Description 06", priority: Priority.high),
+            TodoInfo(date: Date(timeInterval: TimeInterval(-100 * intervalDays), since: today), title: "Title 07", description: "Description 07", priority: nil),
+            TodoInfo(date: Date(timeInterval: TimeInterval(-60 * intervalDays), since: today), title: "Title 08", description: "Description 08", priority: nil),
+            TodoInfo(date: Date(timeInterval: TimeInterval(-80 * intervalDays), since: today), title: "Title 09", description: "Description 09", priority: nil),
+            TodoInfo(date: Date(timeInterval: TimeInterval(-120 * intervalDays), since: today), title: "Title 10", description: "Description 10", priority: nil)
         ]
     }
 

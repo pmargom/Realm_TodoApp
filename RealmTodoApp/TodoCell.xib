@@ -16,12 +16,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cdV-ab-cUe">
-                        <rect key="frame" x="8" y="40" width="304" height="20"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <rect key="frame" x="8" y="40" width="304" height="18"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -31,22 +31,36 @@
                             <constraint firstAttribute="height" constant="22" id="1pO-E9-qwV"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27/01/2017" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="Dmi-QN-DdL">
-                        <rect key="frame" x="8" y="13" width="77" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27/01/2017" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dmi-QN-DdL">
+                        <rect key="frame" x="8" y="13" width="266" height="18"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="77" id="6w0-tG-OmG"/>
+                            <constraint firstAttribute="width" constant="266" id="6w0-tG-OmG"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8QO-2q-Xrm">
+                        <rect key="frame" x="261" y="36" width="46" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="46" id="PVC-SL-DGC"/>
+                        </constraints>
+                        <state key="normal" title="delete">
+                            <color key="titleColor" red="1" green="0.215513436333441" blue="0.054259635261058703" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </state>
+                        <connections>
+                            <action selector="deleteItem:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="HkB-6c-khH"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="8QO-2q-Xrm" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="2gi-EF-DKX"/>
                     <constraint firstItem="cbS-Zn-euY" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="F2G-UQ-TaT"/>
                     <constraint firstItem="Dmi-QN-DdL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="NHx-80-wwG"/>
                     <constraint firstItem="cdV-ab-cUe" firstAttribute="top" secondItem="cbS-Zn-euY" secondAttribute="bottom" constant="7" id="NvK-Ib-8Wg"/>
                     <constraint firstItem="cbS-Zn-euY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="PTs-Bj-m21"/>
                     <constraint firstItem="Dmi-QN-DdL" firstAttribute="leading" secondItem="cdV-ab-cUe" secondAttribute="leading" id="ZWP-Bv-rfA"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="8QO-2q-Xrm" secondAttribute="trailing" constant="5" id="dgM-fY-id4"/>
                     <constraint firstItem="cbS-Zn-euY" firstAttribute="centerY" secondItem="Dmi-QN-DdL" secondAttribute="centerY" id="lNw-Zi-6vc"/>
                     <constraint firstItem="cbS-Zn-euY" firstAttribute="trailing" secondItem="cdV-ab-cUe" secondAttribute="trailing" id="mTT-oT-SuA"/>
                     <constraint firstItem="cdV-ab-cUe" firstAttribute="top" secondItem="Dmi-QN-DdL" secondAttribute="bottom" constant="9" id="pa5-NV-58l"/>
