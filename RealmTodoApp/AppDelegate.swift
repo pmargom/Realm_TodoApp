@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     var todoItems: [TodoInfo] = []
+    
+    var navigationVC: UINavigationController = UINavigationController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -24,15 +26,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let todoTableVC = TodoTableViewController(nibId: "TodoCell", cellId: "TodoCellId", items: todoItems, style: .plain)
         
-        let navigationController = UINavigationController(rootViewController: todoTableVC)
-        navigationController.navigationBar.topItem?.title = "Realm TODO APP"
-//        navigationController
+        navigationVC = UINavigationController(rootViewController: todoTableVC)
+        navigationVC.navigationBar.topItem?.title = "Realm TODO APP"
         
-        window?.rootViewController = navigationController
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTodo))
+        navigationVC.navigationBar.topItem?.rightBarButtonItem = addButton
+        
+        window?.rootViewController = navigationVC
         window?.makeKeyAndVisible()
 
         return true
     }
+    
+    func addTodo() {
+        
+        let todoAddNewVC = UINavigationController(rootViewController: TodoAddNew(nibName: "TodoAddNew", bundle: nil))
+        navigationVC.present(todoAddNewVC, animated: true)
+    }
+
 
     func setupMockData() -> [TodoInfo] {
         

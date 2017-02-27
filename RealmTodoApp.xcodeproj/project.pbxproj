@@ -14,6 +14,8 @@
 		6FAFDC311E6466810022AD08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FAFDC301E6466810022AD08 /* Assets.xcassets */; };
 		6FE678761E64993B00A50020 /* TodoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE678751E64993B00A50020 /* TodoTableViewController.swift */; };
 		6FE678781E649CF200A50020 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE678771E649CF200A50020 /* Utils.swift */; };
+		6FE678801E64CBF900A50020 /* TodoAddNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE6787E1E64CBF900A50020 /* TodoAddNew.swift */; };
+		6FE678811E64CBF900A50020 /* TodoAddNew.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6FE6787F1E64CBF900A50020 /* TodoAddNew.xib */; };
 		6FEAC2011E6439E200C08415 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEAC2001E6439E200C08415 /* AppDelegate.swift */; };
 		6FEAC2061E6439E200C08415 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FEAC2041E6439E200C08415 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -27,6 +29,8 @@
 		6FAFDC301E6466810022AD08 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6FE678751E64993B00A50020 /* TodoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoTableViewController.swift; sourceTree = "<group>"; };
 		6FE678771E649CF200A50020 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		6FE6787E1E64CBF900A50020 /* TodoAddNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoAddNew.swift; sourceTree = "<group>"; };
+		6FE6787F1E64CBF900A50020 /* TodoAddNew.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TodoAddNew.xib; sourceTree = "<group>"; };
 		6FEAC1FD1E6439E200C08415 /* RealmTodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealmTodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FEAC2001E6439E200C08415 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6FEAC2051E6439E200C08415 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -59,6 +63,7 @@
 			children = (
 				6FAFDC2C1E6462AA0022AD08 /* TodoCell.swift */,
 				6FE678751E64993B00A50020 /* TodoTableViewController.swift */,
+				6FE6787E1E64CBF900A50020 /* TodoAddNew.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -67,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				6FAFDC2D1E6462AA0022AD08 /* TodoCell.xib */,
+				6FE6787F1E64CBF900A50020 /* TodoAddNew.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -200,6 +206,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FE678811E64CBF900A50020 /* TodoAddNew.xib in Resources */,
 				6FAFDC2F1E6462AA0022AD08 /* TodoCell.xib in Resources */,
 				6FAFDC311E6466810022AD08 /* Assets.xcassets in Resources */,
 				6FEAC2061E6439E200C08415 /* LaunchScreen.storyboard in Resources */,
@@ -261,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FE678801E64CBF900A50020 /* TodoAddNew.swift in Sources */,
 				6FE678781E649CF200A50020 /* Utils.swift in Sources */,
 				6FEAC2011E6439E200C08415 /* AppDelegate.swift in Sources */,
 				6FE678761E64993B00A50020 /* TodoTableViewController.swift in Sources */,

@@ -14,6 +14,8 @@ class TodoCell: UITableViewCell {
     @IBOutlet weak var todoPriority: UIImageView!
     @IBOutlet weak var todoDate: UILabel!
     
+    var parentTableViewController: TodoTableViewController?
+    
     var todoInfo: TodoInfo? {
         didSet {
             if let todoInfo = todoInfo {
@@ -32,7 +34,22 @@ class TodoCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
+    @IBAction func deleteItem(_ sender: Any) {
+//        let alert = UIAlertController(title: "Alert", message: "Adding todo", preferredStyle: .alert)
+//        
+//        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//        let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default) { action -> Void in
+//            self.parentTableViewController?.deleteItem(cell: self)
+//        }
+//        
+//        alert.addAction(okAction)
+//        alert.addAction(cancelAction)
+//        
+//        self.parentTableViewController?.present(alert, animated: true, completion: nil)
+        
+        self.parentTableViewController?.deleteItem(cell: self)
+        
+    }
 }
