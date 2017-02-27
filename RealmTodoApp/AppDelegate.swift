@@ -12,40 +12,42 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    var todoItems: [TodoInfo] = []
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
         window = UIWindow()
-        window?.backgroundColor = UIColor.red
-        window?.rootViewController = UIViewController()
+        window?.backgroundColor = UIColor.white
+        
+        todoItems = setupMockData()
+        
+        let todoTableVC = TodoTableViewController(nibId: "TodoCell", cellId: "TodoCellId", items: todoItems, style: .plain)
+        
+        let navigationController = UINavigationController(rootViewController: todoTableVC)
+        navigationController.navigationBar.topItem?.title = "Realm TODO APP"
+        
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
 
         return true
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    func setupMockData() -> [TodoInfo] {
+        
+        return [
+            TodoInfo(date: Date(), title: "Title 01", description: "Description 01", priority: nil),
+            TodoInfo(date: Date(), title: "Title 02", description: "Description 02", priority: Priority.low),
+            TodoInfo(date: Date(), title: "Title 03", description: "Description 03", priority: Priority.intermediate),
+            TodoInfo(date: Date(), title: "Title 04", description: "Description 04", priority: Priority.intermediate),
+            TodoInfo(date: Date(), title: "Title 05", description: "Description 05", priority: Priority.high),
+            TodoInfo(date: Date(), title: "Title 06", description: "Description 06", priority: Priority.high),
+            TodoInfo(date: Date(), title: "Title 07", description: "Description 07", priority: nil),
+            TodoInfo(date: Date(), title: "Title 08", description: "Description 08", priority: nil),
+            TodoInfo(date: Date(), title: "Title 09", description: "Description 09", priority: nil),
+            TodoInfo(date: Date(), title: "Title 10", description: "Description 10", priority: nil)
+        ]
     }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
 
 }
 
