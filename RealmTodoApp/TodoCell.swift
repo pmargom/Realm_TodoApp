@@ -19,7 +19,7 @@ class TodoCell: UITableViewCell {
             if let todoInfo = todoInfo {
                 todoTitle.text = todoInfo.title
                 //todoDate.text = todoInfo.date
-                todoPriority.image = UIImage.init(imageLiteralResourceName: Priority.high.rawValue)
+                todoPriority.image = UIImage.init(imageLiteralResourceName: todoInfo.priority.rawValue)
             }
         }
     }
