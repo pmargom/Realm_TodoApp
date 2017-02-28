@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 enum Priority: String {
     case low
@@ -14,16 +15,28 @@ enum Priority: String {
     case high
 }
 
-struct TodoInfo {
-    let date: Date
-    let title: String
-    let description: String
-    let priority: Priority
+class TodoInfo: Object {
     
-    init(date: Date, title: String, description: String, priority: Priority?) {
+    dynamic var todoId = NSUUID().uuidString
+    
+    dynamic var date = Date()
+    dynamic var title = ""
+    dynamic var todoDescription = ""
+    dynamic var priority = Priority.low.rawValue
+    
+    override class func primaryKey() -> String? {
+        return "todoId"
+    }
+    
+    override class func indexedProperties() -> [String] {
+        return ["done"]
+    }
+    
+    convenience init(date: Date, title: String, description: String, priority: Priority?) {
+        self.init()
         self.date = date
         self.title = title
-        self.description = description
-        self.priority = priority ?? Priority.low
+        self.todoDescription = description
+        self.priority = priority.map { $0.rawValue }!
     }
 }

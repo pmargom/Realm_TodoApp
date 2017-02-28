@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class TodoAddNew: UIViewController {
 
@@ -16,21 +17,27 @@ class TodoAddNew: UIViewController {
     @IBOutlet weak var todoPriority: UISlider!
     @IBOutlet weak var todoDate: UITextField!
     
-    var todoInfo: TodoInfo?
+    var todoId: String?
     let datePicker = UIDatePicker()
+    
+    private var todoInfo: TodoInfo?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
         createDatePicker()
-        loadData()
+        
+        if todoId != nil {
+            todoInfo = loadData(id: todoId!)
+        }
+        
     }
     
     func setupNavigationBar() {
-        self.navigationController?.navigationBar.topItem?.title = todoInfo == nil ? "Add new" : "Edit todo"
+        self.navigationController?.navigationBar.topItem?.title = todoId == nil ? "Add new" : "Edit todo"
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissVC))
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTodo))
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(storeDate))
         self.navigationController?.navigationBar.topItem?.setLeftBarButton(cancelButton, animated: true)
         self.navigationController?.navigationBar.topItem?.setRightBarButton(saveButton, animated: true)
     }
@@ -39,17 +46,71 @@ class TodoAddNew: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func saveTodo() {
+    func addTodo() {
         
-        let alert = UIAlertController(title: "Alert", message: "Adding todo", preferredStyle: .alert)
+        if let realm = try? Realm(),
+            let newTodoToStore = prepareDataToStore() {
+            try! realm.write {
+                realm.add(newTodoToStore)
+            }
+        }
+    
+    }
+    
+    func loadData(id: String) -> TodoInfo? {
         
-        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let okAction: UIAlertAction = UIAlertAction(title: "OK", style: .default) { action -> Void in
+        var todoInfoInDb: TodoInfo?
+        
+        if let realm = try? Realm(),
+            let existingTodoToStore = realm.object(ofType: TodoInfo.self, forPrimaryKey: id as AnyObject) {
+            
+            self.todoTitle.text = existingTodoToStore.title
+            self.todoDescription.text = existingTodoToStore.todoDescription
+            self.todoDate.text = existingTodoToStore.date.asShortDate
+            datePicker.setDate(existingTodoToStore.date, animated: false)
+            
+            switch existingTodoToStore.priority {
+            case Priority.intermediate.rawValue:
+                self.todoPriority.value = 1
+                todoPriorityValue.text = Priority.intermediate.rawValue
+            case Priority.high.rawValue:
+                self.todoPriority.value = 2
+                todoPriorityValue.text = Priority.high.rawValue
+            default:
+                self.todoPriority.value = 0
+                todoPriorityValue.text = Priority.low.rawValue
+            }
+            
+            todoInfoInDb = existingTodoToStore
         }
         
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
-        self.navigationController?.present(alert, animated: true, completion: nil)
+        return todoInfoInDb
+    }
+    
+    func updateTodo(id: String) {
+        
+        if let todoModified = prepareDataToStore(),
+            let realm = try? Realm(),
+            let existingTodoToStore = realm.object(ofType: TodoInfo.self, forPrimaryKey: id as AnyObject) {
+            try! realm.write {
+                existingTodoToStore.date = todoModified.date
+                existingTodoToStore.title = todoModified.title
+                existingTodoToStore.todoDescription = todoModified.todoDescription
+                existingTodoToStore.priority = todoModified.priority
+            }
+        }
+    }
+    
+    func storeDate()  {
+
+        if todoId == nil {
+            addTodo()
+        }
+        else {
+            updateTodo(id: self.todoId!)
+        }
+        
+        dismissVC()
     }
     
     func createDatePicker() {
@@ -69,28 +130,12 @@ class TodoAddNew: UIViewController {
         self.todoDate.text = datePicker.date.asShortDate
         self.view.endEditing(true)
     }
+
     
-    func loadData() {
-        guard let model = todoInfo else {
-            return
-        }
+    func prepareDataToStore() -> TodoInfo? {
         
-        self.todoTitle.text = model.title
-        self.todoDescription.text = model.description
-        self.todoDate.text = model.date.asShortDate
-        datePicker.setDate(model.date, animated: false)
-        
-        switch model.priority {
-        case Priority.intermediate:
-            self.todoPriority.value = 1
-            todoPriorityValue.text = Priority.intermediate.rawValue
-        case Priority.high:
-            self.todoPriority.value = 2
-            todoPriorityValue.text = Priority.high.rawValue
-        default:
-            self.todoPriority.value = 0
-            todoPriorityValue.text = Priority.low.rawValue
-        }
+
+        return TodoInfo(date: datePicker.date, title: (self.todoTitle?.text!)!, description: self.todoDescription.text, priority: self.todoPriorityValue.text.map { Priority(rawValue: $0) }!)
         
     }
     

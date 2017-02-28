@@ -7,13 +7,18 @@
 //
 
 import UIKit
+import RealmSwift
 
 final class TodoTableViewController: UITableViewController {
-    var items: [TodoInfo]
+    
+    //var items: [TodoInfo]
     let nibId: String
     let cellId: String
     
-    init(nibId: String, cellId: String, items: [TodoInfo], style: UITableViewStyle) {
+    var items: Results<TodoInfo>!
+
+    
+    init(nibId: String, cellId: String, items: Results<TodoInfo>, style: UITableViewStyle) {
         self.nibId = nibId
         self.cellId = cellId
         self.items = items
@@ -26,14 +31,14 @@ final class TodoTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return Int(items.count)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellId, for: indexPath) as! TodoCell
         
-        cell.todoInfo = items[indexPath.row]
+        cell.todoInfo = items[indexPath.row] as TodoInfo
         cell.parentTableViewController = self
         
         return cell
@@ -41,10 +46,10 @@ final class TodoTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let todoInfoSelectedItem = items[indexPath.row]
+        let todoInfoSelectedItem = items[indexPath.row] as TodoInfo
         
         let todoInfoEditVC = TodoAddNew(nibName: "TodoAddNew", bundle: nil)
-        todoInfoEditVC.todoInfo = todoInfoSelectedItem
+        todoInfoEditVC.todoId = todoInfoSelectedItem.todoId
         
         let todoAddNewVC = UINavigationController(rootViewController: todoInfoEditVC)
         self.navigationController?.present(todoAddNewVC, animated: true)
@@ -61,10 +66,19 @@ final class TodoTableViewController: UITableViewController {
     }
     
     func deleteItem(cell: UITableViewCell) {
+        
         if let deletionIndexPath = tableView.indexPath(for: cell) {
-            items.remove(at: deletionIndexPath.row)
+            let todoInfoToDelete = items[deletionIndexPath.row]
+            let realm = try! Realm()
+            try! realm.write {
+                realm.delete(todoInfoToDelete)
+            }
             tableView.deleteRows(at: [deletionIndexPath], with: .fade)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
     }
     
 }
