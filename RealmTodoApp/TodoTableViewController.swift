@@ -11,23 +11,47 @@ import RealmSwift
 
 final class TodoTableViewController: UITableViewController {
     
-    //var items: [TodoInfo]
     let nibId: String
     let cellId: String
     
     var items: Results<TodoInfo>!
+    var subscription: NotificationToken?
 
-    
     init(nibId: String, cellId: String, items: Results<TodoInfo>, style: UITableViewStyle) {
         self.nibId = nibId
         self.cellId = cellId
         self.items = items
         super.init(style:style)
         self.registerCustomCell()
+        subscription = notificationSubscription(items: self.items)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func notificationSubscription(items: Results<TodoInfo>) -> NotificationToken {
+        return items.addNotificationBlock {[weak self] (changes: RealmCollectionChange<Results<TodoInfo>>) in
+            self?.updateUI(changes: changes)
+        }
+    }
+    
+    func updateUI(changes: RealmCollectionChange<Results<TodoInfo>>) {
+        switch changes {
+        case .initial(_):
+            tableView.reloadData()
+        case .update(_, let deletions, let insertions, _):
+            
+            tableView.beginUpdates()
+
+            tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+            tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
+            
+            tableView.endUpdates()
+            break
+        case .error(let error):
+            print(error)
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,7 +84,6 @@ final class TodoTableViewController: UITableViewController {
         return 100
     }
     
-    // MARK: Private Methods
     private func registerCustomCell() {
         tableView.register(UINib(nibName: self.nibId, bundle: nil), forCellReuseIdentifier: self.cellId)
     }
@@ -75,10 +98,6 @@ final class TodoTableViewController: UITableViewController {
             }
             tableView.deleteRows(at: [deletionIndexPath], with: .fade)
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
     }
     
 }

@@ -31,7 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navigationVC.navigationBar.topItem?.title = "Realm TODO APP"
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTodo))
-        navigationVC.navigationBar.topItem?.rightBarButtonItem = addButton
+        let filterButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(filterTodos))
+        navigationVC.navigationBar.topItem?.setLeftBarButton(filterButton, animated: true)
+        navigationVC.navigationBar.topItem?.setRightBarButton(addButton, animated: true)
         
         window?.rootViewController = navigationVC
         window?.makeKeyAndVisible()
@@ -40,9 +42,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func addTodo() {
-        
         let todoAddNewVC = UINavigationController(rootViewController: TodoAddNew(nibName: "TodoAddNew", bundle: nil))
         navigationVC.present(todoAddNewVC, animated: true)
+    }
+    
+    func filterTodos() {
+        let filtersVC = UINavigationController(rootViewController: TodoFilters(nibName: "TodoFilters", bundle: nil))
+        navigationVC.present(filtersVC, animated: true)
     }
     
     func initRealm() {

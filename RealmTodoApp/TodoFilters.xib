@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TodoFilters" customModule="RealmTodoApp" customModuleProvider="target">
+            <connections>
+                <outlet property="prioritySort" destination="yTS-er-zNp" id="NCf-ph-9Iw"/>
+                <outlet property="todoDateFilter" destination="QWI-l8-P55" id="WXY-El-IAD"/>
+                <outlet property="todoPriorityFilter" destination="6xp-mC-REA" id="Yi5-LF-OCI"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter by priority" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qck-3U-SnX">
+                    <rect key="frame" x="16" y="71" width="120" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6xp-mC-REA">
+                    <rect key="frame" x="16" y="100" width="343" height="29"/>
+                    <segments>
+                        <segment title="Low"/>
+                        <segment title="Intermediate"/>
+                        <segment title="High"/>
+                    </segments>
+                    <connections>
+                        <action selector="priorityFilterChanged:" destination="-1" eventType="valueChanged" id="Yvv-y0-F37"/>
+                    </connections>
+                </segmentedControl>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort by priority" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c6F-QP-A7b">
+                    <rect key="frame" x="16" y="144" width="120" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yTS-er-zNp">
+                    <rect key="frame" x="16" y="174" width="343" height="29"/>
+                    <segments>
+                        <segment title="Ascending"/>
+                        <segment title="Descending"/>
+                    </segments>
+                    <connections>
+                        <action selector="dateFilterChanged:" destination="-1" eventType="valueChanged" id="upb-aD-SOI"/>
+                        <action selector="prioritySortChanged:" destination="-1" eventType="valueChanged" id="cgF-ZT-aSG"/>
+                    </connections>
+                </segmentedControl>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort by date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85R-RG-5iT">
+                    <rect key="frame" x="16" y="219" width="120" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="QWI-l8-P55">
+                    <rect key="frame" x="16" y="248" width="343" height="29"/>
+                    <segments>
+                        <segment title="Ascending"/>
+                        <segment title="Descending"/>
+                    </segments>
+                    <connections>
+                        <action selector="dateFilterChanged:" destination="-1" eventType="valueChanged" id="6aS-Yj-gGF"/>
+                    </connections>
+                </segmentedControl>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="6xp-mC-REA" firstAttribute="leading" secondItem="qck-3U-SnX" secondAttribute="leading" id="5cz-J3-peQ"/>
+                <constraint firstItem="yTS-er-zNp" firstAttribute="top" secondItem="c6F-QP-A7b" secondAttribute="bottom" constant="9" id="9DC-88-E8M"/>
+                <constraint firstItem="85R-RG-5iT" firstAttribute="top" secondItem="6xp-mC-REA" secondAttribute="bottom" constant="91" id="AzC-wO-ekX"/>
+                <constraint firstItem="c6F-QP-A7b" firstAttribute="trailing" secondItem="qck-3U-SnX" secondAttribute="trailing" id="Fmy-SD-pbT"/>
+                <constraint firstItem="c6F-QP-A7b" firstAttribute="top" secondItem="6xp-mC-REA" secondAttribute="bottom" constant="16" id="PaT-wW-5iL"/>
+                <constraint firstItem="c6F-QP-A7b" firstAttribute="leading" secondItem="6xp-mC-REA" secondAttribute="leading" id="Vgc-QJ-dsQ"/>
+                <constraint firstItem="6xp-mC-REA" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="100" id="Y3t-xc-Lvf"/>
+                <constraint firstItem="85R-RG-5iT" firstAttribute="leading" secondItem="6xp-mC-REA" secondAttribute="leading" id="eR0-RQ-zMp"/>
+                <constraint firstAttribute="trailing" secondItem="6xp-mC-REA" secondAttribute="trailing" constant="16" id="eVL-M7-00v"/>
+                <constraint firstItem="6xp-mC-REA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="ef1-R8-rVf"/>
+                <constraint firstItem="QWI-l8-P55" firstAttribute="leading" secondItem="85R-RG-5iT" secondAttribute="leading" id="knN-Ht-tLG"/>
+                <constraint firstItem="QWI-l8-P55" firstAttribute="top" secondItem="85R-RG-5iT" secondAttribute="bottom" constant="8" symbolic="YES" id="lul-lX-IAx"/>
+                <constraint firstItem="yTS-er-zNp" firstAttribute="trailing" secondItem="6xp-mC-REA" secondAttribute="trailing" id="q6C-wo-fmt"/>
+                <constraint firstItem="QWI-l8-P55" firstAttribute="trailing" secondItem="6xp-mC-REA" secondAttribute="trailing" id="vSd-6O-f08"/>
+                <constraint firstItem="85R-RG-5iT" firstAttribute="trailing" secondItem="qck-3U-SnX" secondAttribute="trailing" id="wN0-c8-dN2"/>
+                <constraint firstItem="6xp-mC-REA" firstAttribute="top" secondItem="qck-3U-SnX" secondAttribute="bottom" constant="8" symbolic="YES" id="x4q-up-NTG"/>
+                <constraint firstItem="yTS-er-zNp" firstAttribute="leading" secondItem="c6F-QP-A7b" secondAttribute="leading" id="y0l-EU-b5z"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
+        </view>
+    </objects>
+</document>
