@@ -15,8 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     var todoItems: Results<TodoInfo>!
-    
     var navigationVC: UINavigationController = UINavigationController()
+    var todoTableVC: TodoTableViewController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -25,9 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         initRealm()
         
-        let todoTableVC = TodoTableViewController(nibId: "TodoCell", cellId: "TodoCellId", items: todoItems!, style: .plain)
+        todoTableVC = TodoTableViewController(nibId: "TodoCell", cellId: "TodoCellId", items: todoItems!, style: .plain)
+        todoTableVC?.dataFilterDelegate = self
         
-        navigationVC = UINavigationController(rootViewController: todoTableVC)
+        navigationVC = UINavigationController(rootViewController: todoTableVC!)
         navigationVC.navigationBar.topItem?.title = "Realm TODO APP"
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTodo))
@@ -47,8 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func filterTodos() {
-        let filtersVC = UINavigationController(rootViewController: TodoFilters(nibName: "TodoFilters", bundle: nil))
-        navigationVC.present(filtersVC, animated: true)
+        let todoFilterVC = TodoFilters(nibName: "TodoFilters", bundle: nil)
+        todoFilterVC.filterDelegate = self
+        let rootFiltersVC = UINavigationController(rootViewController: todoFilterVC)
+        navigationVC.present(rootFiltersVC, animated: true)
     }
     
     func initRealm() {
@@ -56,5 +59,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         todoItems = realm.objects(TodoInfo.self)
     }
 
+}
+
+extension AppDelegate: FilterControllerDelegate {
+    
+    func back(_ todoItems: Results<TodoInfo>) {
+        todoTableVC?.back(todoItems)
+    }
+    
 }
 

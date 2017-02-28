@@ -9,23 +9,27 @@
 import UIKit
 import RealmSwift
 
+protocol FilterControllerDelegate {
+    func back(_ todoItems: Results<TodoInfo>)
+}
+
 class TodoFilters: UIViewController {
     
     @IBOutlet weak var todoPriorityFilter: UISegmentedControl!
     @IBOutlet weak var todoDateFilter: UISegmentedControl!
     @IBOutlet weak var prioritySort: UISegmentedControl!
     
-    var dateSortDirection: Bool = false
-    var prioritySortDirection: Bool = false
-    var priorityFilter: String?
+    var filterDelegate: FilterControllerDelegate?
+    private var filterAndOrder: FilterAndOrder?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        filterAndOrder = loadFilterAndOrder()
         setupNavigationBar()
     }
     
-    var todoInfosFiltered: Results<TodoInfo>?
+    private var todoInfosFiltered: Results<TodoInfo>?
     
     func setupNavigationBar() {
         self.navigationController?.navigationBar.topItem?.title = "Filter/Sort"
@@ -36,6 +40,15 @@ class TodoFilters: UIViewController {
     }
     
     func dismissVC() {
+        
+        if (todoInfosFiltered != nil) {
+            self.filterDelegate?.back(todoInfosFiltered!)
+        }
+        
+        if filterAndOrder != nil {
+            saveFilterAndOrder(filterAndOrder: filterAndOrder!)
+        }
+        
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -44,8 +57,14 @@ class TodoFilters: UIViewController {
             let todoInfos = realm.objects(TodoInfo.self)
             
             todoInfosFiltered = todoInfos.sorted(by: [
-                SortDescriptor(keyPath: "priority", ascending: prioritySortDirection ),
-                SortDescriptor(keyPath: "date", ascending: dateSortDirection),
+                SortDescriptor(keyPath: "priority",
+                               ascending: filterAndOrder?.prioritySortDirection == SortDirection.Ascending
+                                ? true
+                                : false),
+                SortDescriptor(keyPath: "date",
+                               ascending: filterAndOrder?.dateFilterSortDirection == SortDirection.Ascending
+                                ? true
+                                : false),
                 ])
         }
         
@@ -58,11 +77,11 @@ class TodoFilters: UIViewController {
         
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            print("First Segment Selected")
+            filterAndOrder?.priorityFilter = Priority.low.rawValue
         case 1:
-            print("Second Segment Selected")
+            filterAndOrder?.priorityFilter = Priority.intermediate.rawValue
         case 2:
-            print("Third Segment Selected")
+            filterAndOrder?.priorityFilter = Priority.high.rawValue
         default:
             break
         }
@@ -72,27 +91,15 @@ class TodoFilters: UIViewController {
     @IBAction func dateFilterChanged(_ sender: Any) {
         let segmentedControl = sender as! UISegmentedControl
         
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            dateSortDirection = true
-        case 1:
-            dateSortDirection = false
-        default:
-            break
-        }
+        filterAndOrder?.dateFilterSortDirection = segmentedControl.selectedSegmentIndex == 0 ? .Ascending : .Descending
+        
     }
     
     @IBAction func prioritySortChanged(_ sender: Any) {
         let segmentedControl = sender as! UISegmentedControl
         
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            prioritySortDirection = true
-        case 1:
-            prioritySortDirection = false
-        default:
-            break
-        }
+        filterAndOrder?.prioritySortDirection = segmentedControl.selectedSegmentIndex == 0 ? .Ascending : .Descending
+        
     }
     
 }

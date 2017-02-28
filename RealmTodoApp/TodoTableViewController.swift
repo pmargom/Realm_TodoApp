@@ -11,11 +11,13 @@ import RealmSwift
 
 final class TodoTableViewController: UITableViewController {
     
-    let nibId: String
-    let cellId: String
+    private let nibId: String
+    private let cellId: String
     
     var items: Results<TodoInfo>!
     var subscription: NotificationToken?
+    
+    var dataFilterDelegate: FilterControllerDelegate?
 
     init(nibId: String, cellId: String, items: Results<TodoInfo>, style: UITableViewStyle) {
         self.nibId = nibId
@@ -101,3 +103,23 @@ final class TodoTableViewController: UITableViewController {
     }
     
 }
+
+extension TodoTableViewController: FilterControllerDelegate {
+    
+    func back(_ todoItems: Results<TodoInfo>) {
+        self.items = todoItems
+        subscription = notificationSubscription(items: self.items)
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+

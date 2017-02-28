@@ -20,3 +20,22 @@ extension Date {
     }
     
 }
+
+func saveFilterAndOrder(filterAndOrder: FilterAndOrder) {
+
+    let encodedData = NSKeyedArchiver.archivedData(withRootObject: filterAndOrder)
+    UserDefaults.standard.set(encodedData, forKey: "filterAndOrder")
+
+}
+
+func loadFilterAndOrder() -> FilterAndOrder {
+
+    if let data = UserDefaults.standard.object(forKey: "filterAndOrder") {
+        let filterAndOrder = NSKeyedUnarchiver.unarchiveObject(with: data as! Data)
+        return FilterAndOrder(priorityFilter: "", prioritySortDirection: nil, dateFilterSortDirection: nil)
+    }
+    
+    return FilterAndOrder(priorityFilter: "", prioritySortDirection: nil, dateFilterSortDirection: nil)
+}
+
+
