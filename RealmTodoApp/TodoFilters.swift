@@ -9,6 +9,10 @@
 import UIKit
 import RealmSwift
 
+protocol FilterControllerDelegate {
+    func back(_ todoItems: Results<TodoInfo>)
+}
+
 class TodoFilters: UIViewController {
     
     @IBOutlet weak var todoPriorityFilter: UISegmentedControl!
@@ -18,6 +22,7 @@ class TodoFilters: UIViewController {
     var dateSortDirection: Bool = false
     var prioritySortDirection: Bool = false
     var priorityFilter: String?
+    var filterDelegate: FilterControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +30,7 @@ class TodoFilters: UIViewController {
         setupNavigationBar()
     }
     
-    var todoInfosFiltered: Results<TodoInfo>?
+    private var todoInfosFiltered: Results<TodoInfo>?
     
     func setupNavigationBar() {
         self.navigationController?.navigationBar.topItem?.title = "Filter/Sort"
@@ -36,6 +41,9 @@ class TodoFilters: UIViewController {
     }
     
     func dismissVC() {
+        if (todoInfosFiltered != nil) {
+            self.filterDelegate?.back(todoInfosFiltered!)
+        }
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -44,7 +52,7 @@ class TodoFilters: UIViewController {
             let todoInfos = realm.objects(TodoInfo.self)
             
             todoInfosFiltered = todoInfos.sorted(by: [
-                SortDescriptor(keyPath: "priority", ascending: prioritySortDirection ),
+                //SortDescriptor(keyPath: "priority", ascending: prioritySortDirection ),
                 SortDescriptor(keyPath: "date", ascending: dateSortDirection),
                 ])
         }
